@@ -1,0 +1,47 @@
+state:
+  notifications = []
+  isOpen = false
+  loading = false
+  error = null
+
+derived:
+  unreadCount = count of notifications where read == false
+
+onComponentMount:
+  set loading = true
+  try:
+    response = GET /api/notifications
+    notifications = response.json()
+  catch error:
+    set error message
+  finally:
+    set loading = false
+
+onBellClick():
+  toggle isOpen
+
+onMarkAllRead():
+  try:
+    response = POST /api/notifications/mark-all-read
+    if response.success == true:
+      for each n in notifications:
+        n.read = true
+  catch error:
+    set error message
+
+render():
+  show Bell Icon
+    if unreadCount > 0 → show badge with unreadCount
+
+  if isOpen:
+    if loading → show "Loading..."
+    else if error → show error message
+    else if notifications empty → show "No notifications"
+    else:
+      for each notification in notifications:
+        show notification.text
+        style differently if read == false
+
+    show button "Mark all as read"
+      disabled if unreadCount == 0
+      onClick → onMarkAllRead()
