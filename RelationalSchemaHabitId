@@ -1,0 +1,26 @@
+
+CREATE TABLE users (
+  user_id VARCHAR PRIMARY KEY,
+  user_name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL
+  created_at TIMESTAMP   DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE habits (
+    habit_id  VARCHAR PRIMARY KEY,
+    user_id  VARCHAR(100) NOT NULL,
+    habit_name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+);
+
+CREATE TABLE habit_logs (
+  habit_log_id SERIAL PRIMARY KEY,
+  habit_id VARCHAR(100) NOT NULL,
+  user_id VARCHAR(100) NOT NULL,
+  log_date DATE NOT NULL,
+  status VARCHAR(45) CHECK (status IN ('DONE', 'SKIPPED')),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (habit_id) REFERENCES habits(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
