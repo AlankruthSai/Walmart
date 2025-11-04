@@ -1,0 +1,43 @@
+1. Mark a habit as "DONE" or "SKIPPED" for a given date.
+
+url: /api/habits/{habitId}/log
+
+PHttp Method : POST 
+
+Req Body 
+
+{
+  "userId": 123,
+  "date": "2025-11-03",
+  "status": "DONE"
+}
+
+Response
+
+{
+  "success": true,
+  "habitId": 45,
+  "userId": 123,
+  "date": "2025-11-03",
+  "status": "DONE"
+}
+
+
+2. Get habit streak for user (consecutive DONE days)
+
+Url : /api/habits/{habitId}/streak
+
+Http Method : GET 
+
+Query params : ?userId=123
+
+Response 
+
+{
+  "habitId": 45,
+  "userId": 123,
+  "currentStreak": 7,
+  "lastDoneDate": "2025-11-03"
+}
+
+we can use a lambda + api gateway to make this work
