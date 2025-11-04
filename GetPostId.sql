@@ -25,3 +25,5 @@ JOIN comments c ON p.id = c.post_id
 GROUP BY p.id, p.title
 ORDER BY COUNT(c.id) DESC
 LIMIT 5;
+
+Index on comments(post_id)
